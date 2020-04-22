@@ -1,24 +1,23 @@
+<div align="center">
+
 # PolyLaneNet
-Code for the under-review PolyLaneNet paper. This page is a work-in-progress.
+![Method overview](figures/method-overview.png "Method overview")
+</div>
+
+## Description
+Code for the under-review PolyLaneNet paper by [Lucas Tabelini](https://github.com/lucastabelini), [Thiago M. Paixão](https://sites.google.com/view/thiagopx), [Rodrigo F. Berriel](http://rodrigoberriel.com), [Claudine Badue](https://www.inf.ufes.br/~claudine/),
+[Alberto F. De Souza](https://inf.ufes.br/~alberto), and [Thiago Oliveira-Santos](https://www.inf.ufes.br/~todsantos/home). This page is a work-in-progress.
 
 ## Table of Contents
-1. [Reproducing the paper results](#reproducing)
-2. [Installation](#installation)
-3. [Usage](#usage)
-
-<a name="reproducing"/>
-
-### Reproducing the paper results
-#### Models
-Models trained for the paper will be available soon.
-#### Datasets
-- [TuSimple](https://github.com/TuSimple/tusimple-benchmark "TuSimple")
-- [ELAS](https://github.com/rodrigoberriel/ego-lane-analysis-system/tree/master/datasets "ELAS")
-- [LLAMAS](https://unsupervised-llamas.com/llamas/ "LLAMAS")
+1. [Installation](#installation)
+2. [Usage](#usage)
+3. [Reproducing the paper results](#reproducing)
 
 <a name="installation"/>
 
 ### Installation
+The code requires Python 3, and has been tested on Python 3.5.2, but should work on newer versions of Python too.
+
 Install dependencies:
 ```
 pip install -r requirements.txt
@@ -30,7 +29,9 @@ That's all. A Docker container and a Google Colab notebook will be available soo
 
 ### Usage
 #### Training
-First, create the experiment configuration file. An example is shown:
+Every setting for a training is set through a YAML configuration file.
+Thus, in order to train a model you will have to setup the configuration file.
+An example is shown:
 ```yaml
 # Training settings
 exps_dir: 'experiments' # Path to the root for the experiments directory (not only the one you will run)
@@ -105,11 +106,60 @@ datasets:
     <<: *test
 ```
 
-With the config file created, start training:
+With the config file created, run the training script:
 ```bash
 python train.py --exp_name tusimple --cfg config.yaml
 ```
+This script's options are:
+```
+  --exp_name            Experiment name.
+  --cfg                 Config file for the training (.yaml)
+  --resume              Resume training. If a training session was interrupted, run it again with the same arguments and this option to resume the training from the last checkpoint.
+  --validate            Wheter to validate during the training session. Was not in our experiments, which means it has not been thoroughly tested.
+  --deterministic       set cudnn.deterministic = True and cudnn.benchmark = False
+```
+
 #### Testing
+After training, run the `test.py` script to get the metrics:
 ```bash
 python test.py --exp_name tusimple --cfg config.yaml --epoch 2695
 ```
+This script's options are:
+```
+  --exp_name            Experiment name.
+  --cfg                 Config file for the test (.yaml). (probably the same one used in the training)
+  --epoch EPOCH         Epoch to test the model on
+  --batch_size          Number of images per batch
+  --view                Show predictions. Will draw the predictions in an image and then show it (cv.imshow)
+```
+
+If you have any issues with either training or testing feel free to open an issue.
+
+<a name="reproducing"/>
+
+### Reproducing the paper results
+
+#### Models
+All models trained for the paper can be found [here](https://drive.google.com/open?id=1oyZncVnUB1GRJl5L4oXz50RkcNFM_FFC "Models on Google Drive").
+
+#### Datasets
+- [TuSimple](https://github.com/TuSimple/tusimple-benchmark "TuSimple")
+- [ELAS](https://github.com/rodrigoberriel/ego-lane-analysis-system/tree/master/datasets "ELAS")
+- [LLAMAS](https://unsupervised-llamas.com/llamas/ "LLAMAS")
+
+#### How to
+To reproduce the results, you can either retrain a model with the same settings (which should yield results pretty close to the reported ones) or just test the model.
+If you want to retrain, you only need the appropriate YAML settings file, which you can find in the `cfgs` directory.
+If you just want to reproduce the exact reported metrics by testing the model, you'll have to:
+1. Download the experiment directory. You don't need to download all model checkpoints if you want, you'll only need the last one (`model_2695.pt`, with the exception of the experiments on ELAS and LLAMAS).
+1. Modify all path related fields (i.e., dataset paths and `exps_dir`) in the `config.yaml` file inside the experiment directory.
+1. Move the downloaded experiment to your `exps_dir` folder.
+
+Then, run:
+
+```bash
+python test.py --exp_name $exp_name --cfg $exps_dir/$exp_name/config.yaml --epoch 2695
+```
+Replacing `$exp_name` with the name of the directory you downloaded (the name of the experiment) and `$exps_dir` with the `exps_dir` value you defined inside the `config.yaml` file. The script will look for a directory named `$exps_dir/$exp_name/models` to load the model.
+
+
