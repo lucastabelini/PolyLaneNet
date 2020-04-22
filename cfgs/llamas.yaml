@@ -37,7 +37,7 @@ test_parameters:
 # Dataset settings
 datasets:
   train:
-    type: PointsDataset
+    type: LaneDataset
     parameters:
       dataset: llamas 
       split: train
@@ -48,7 +48,7 @@ datasets:
       root: "../data_lane-regression/datasets/llamas"
 
   test: &test
-    type: PointsDataset
+    type: LaneDataset
     parameters:
       dataset: llamas
       split: test

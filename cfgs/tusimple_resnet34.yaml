@@ -37,7 +37,7 @@ test_parameters:
 # Dataset settings
 datasets:
   train:
-    type: PointsDataset
+    type: LaneDataset
     parameters:
       dataset: tusimple
       split: train
@@ -58,7 +58,7 @@ datasets:
       root: "../data_lane-regression/datasets/tusimple"
 
   test: &test
-    type: PointsDataset
+    type: LaneDataset
     parameters:
       dataset: tusimple
       split: val

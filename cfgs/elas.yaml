@@ -37,7 +37,7 @@ test_parameters:
 # Dataset settings
 datasets:
   train:
-    type: PointsDataset
+    type: LaneDataset
     parameters:
       dataset: elas 
       split: train
@@ -48,7 +48,7 @@ datasets:
       root: "../data_lane-regression/datasets/ELAS"
 
   test: &test
-    type: PointsDataset
+    type: LaneDataset
     parameters:
       dataset: elas 
       split: test
