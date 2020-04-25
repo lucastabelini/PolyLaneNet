@@ -3,11 +3,7 @@ exps_dir: 'experiments'
 iter_log_interval: 1
 iter_time_window: 100
 model_save_interval: 1
-seed: 0
-exps_dir: 'experiments'
-iter_log_interval: 1
-iter_time_window: 100
-model_save_interval: 1
+seed: 1
 backup:
 model:
   name: PolyRegression
