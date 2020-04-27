@@ -52,6 +52,7 @@ datasets:
     parameters:
       dataset: tusimple
       split: val
+      max_lanes: 5
       img_size: [360, 640]
       root: "../data_lane-regression/datasets/tusimple"
       normalize: true
