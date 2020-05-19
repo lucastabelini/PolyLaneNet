@@ -16,6 +16,7 @@ class NoLabelDataset(object):
         # Force max_lanes, used when evaluating testing with models trained on other datasets
         # On NoLabelDataset, always force it
         self.max_lanes = max_lanes
+        self.max_points = 1
 
     def get_img_heigth(self, path):
         return self.img_h
