@@ -5,8 +5,8 @@
 </div>
 
 ## Description
-Code for the under-review [PolyLaneNet paper](https://arxiv.org/abs/2004.10924 "PolyLaneNet paper") by [Lucas Tabelini](https://github.com/lucastabelini), [Thiago M. Paixão](https://sites.google.com/view/thiagopx), [Rodrigo F. Berriel](http://rodrigoberriel.com), [Claudine Badue](https://www.inf.ufes.br/~claudine/),
-[Alberto F. De Souza](https://inf.ufes.br/~alberto), and [Thiago Oliveira-Santos](https://www.inf.ufes.br/~todsantos/home). This page is a work-in-progress.
+Code for the [PolyLaneNet paper](https://arxiv.org/abs/2004.10924 "PolyLaneNet paper"), accepted to ICPR 2020, by [Lucas Tabelini](https://github.com/lucastabelini), [Thiago M. Paixão](https://sites.google.com/view/thiagopx), [Rodrigo F. Berriel](http://rodrigoberriel.com), [Claudine Badue](https://www.inf.ufes.br/~claudine/),
+[Alberto F. De Souza](https://inf.ufes.br/~alberto), and [Thiago Oliveira-Santos](https://www.inf.ufes.br/~todsantos/home).
 
 ## Table of Contents
 1. [Installation](#installation)
@@ -22,8 +22,6 @@ Install dependencies:
 ```
 pip install -r requirements.txt
 ```
-
-That's all. A Docker container and a Google Colab notebook will be available soon.
 
 <a name="usage"/>
 
