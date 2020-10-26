@@ -8,6 +8,8 @@
 Code for the [PolyLaneNet paper](https://arxiv.org/abs/2004.10924 "PolyLaneNet paper"), accepted to ICPR 2020, by [Lucas Tabelini](https://github.com/lucastabelini), [Thiago M. Paixão](https://sites.google.com/view/thiagopx), [Rodrigo F. Berriel](http://rodrigoberriel.com), [Claudine Badue](https://www.inf.ufes.br/~claudine/),
 [Alberto F. De Souza](https://inf.ufes.br/~alberto), and [Thiago Oliveira-Santos](https://www.inf.ufes.br/~todsantos/home).
 
+News: We are working on a novel method for lane detection with state-of-the-art results. You can check out the preprint [here](https://arxiv.org/abs/2010.12035).
+
 ## Table of Contents
 1. [Installation](#installation)
 2. [Usage](#usage)
