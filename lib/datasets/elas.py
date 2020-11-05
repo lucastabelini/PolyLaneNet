@@ -22,6 +22,15 @@ ID_TO_CATEGORY = {i + 1: str(i) for i in range(8)}
 
 class ELAS(object):
     def __init__(self, split='train', max_lanes=None, root=None):
+        """
+        Initialize the annotations.
+
+        Args:
+            self: (todo): write your description
+            split: (int): write your description
+            max_lanes: (int): write your description
+            root: (str): write your description
+        """
         self.root = root
         self.split = split
         if root is None:
@@ -45,19 +54,57 @@ class ELAS(object):
         }
 
     def get_class_icon(self, cls_id):
+        """
+        Get the icon by id
+
+        Args:
+            self: (todo): write your description
+            cls_id: (str): write your description
+        """
         return self.class_icons[cls_id]
 
     def get_img_heigth(self, path):
+        """
+        Get the heap heap
+
+        Args:
+            self: (todo): write your description
+            path: (str): write your description
+        """
         return self.img_h
 
     def get_img_width(self, path):
+        """
+        Get the width of the image.
+
+        Args:
+            self: (todo): write your description
+            path: (str): write your description
+        """
         return self.img_w
 
     def get_metrics(self, lanes, idx):
+        """
+        Returns the metrics from lanes
+
+        Args:
+            self: (todo): write your description
+            lanes: (str): write your description
+            idx: (int): write your description
+        """
         # Placeholders
         return [1] * len(lanes), [1] * len(lanes), None
 
     def interp_lane(self, lane, ys, step=10):
+        """
+        Interpolate the given a - points.
+
+        Args:
+            self: (todo): write your description
+            lane: (str): write your description
+            ys: (array): write your description
+            step: (int): write your description
+        """
         pts = [[x, ys[i]] for i, x in enumerate(lane) if not math.isnan(float(x))]
         if len(pts) <= 1:
             return None
@@ -68,6 +115,13 @@ class ELAS(object):
         return list(zip(interp_xs, interp_ys))
 
     def load_dir_annotations(self, dataset_dir):
+        """
+        Load annotated annotations.
+
+        Args:
+            self: (todo): write your description
+            dataset_dir: (str): write your description
+        """
         annotations = []
         max_points = 0
         max_lanes = 0
@@ -110,6 +164,12 @@ class ELAS(object):
         return annotations, max_points, max_lanes
 
     def load_annotations(self):
+        """
+        Load all annotations from file.
+
+        Args:
+            self: (todo): write your description
+        """
         self.annotations = []
         self.max_points = 0
         self.max_lanes = 0
@@ -127,11 +187,35 @@ class ELAS(object):
             random.shuffle(self.annotations)
 
     def eval(self, exp_dir, predictions, runtimes, label=None, only_metrics=False):
+        """
+        Evaluate the model.
+
+        Args:
+            self: (todo): write your description
+            exp_dir: (str): write your description
+            predictions: (todo): write your description
+            runtimes: (int): write your description
+            label: (todo): write your description
+            only_metrics: (bool): write your description
+        """
         # Placeholder
         return "", None
 
     def __getitem__(self, idx):
+        """
+        Return an item with the given index.
+
+        Args:
+            self: (todo): write your description
+            idx: (list): write your description
+        """
         return self.annotations[idx]
 
     def __len__(self):
+        """
+        Returns the length of the annotations.
+
+        Args:
+            self: (todo): write your description
+        """
         return len(self.annotations)

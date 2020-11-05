@@ -8,6 +8,11 @@ from lib.config import Config
 
 
 def parse_args():
+    """
+    Parse command line arguments.
+
+    Args:
+    """
     parser = argparse.ArgumentParser(description="Tool to generate qualitative results videos")
     parser.add_argument("--pred", help=".pkl file to load predictions from")
     parser.add_argument("--cfg", default="config.yaml", help="Config file")
@@ -19,12 +24,29 @@ def parse_args():
 
 
 def add_cover_img(video, cover_path, frames=90):
+    """
+    Add video to video to video
+
+    Args:
+        video: (todo): write your description
+        cover_path: (str): write your description
+        frames: (todo): write your description
+    """
     cover = cv2.imread(cover_path)
     for _ in range(frames):
         video.write(cover)
 
 
 def create_video(filename, width, height, fps=30):
+    """
+    Create a video
+
+    Args:
+        filename: (str): write your description
+        width: (float): write your description
+        height: (float): write your description
+        fps: (str): write your description
+    """
     fourcc = cv2.VideoWriter_fourcc(*'MP42')
     video = cv2.VideoWriter(filename, fourcc, float(fps), (width, height))
 
@@ -32,6 +54,11 @@ def create_video(filename, width, height, fps=30):
 
 
 def main():
+    """
+    Main function.
+
+    Args:
+    """
     args = parse_args()
     cfg = Config(args.cfg)
     dataset = cfg.get_dataset('test')

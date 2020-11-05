@@ -10,6 +10,13 @@ class LaneEval(object):
 
     @staticmethod
     def get_angle(xs, y_samples):
+        """
+        Returns the angle between the angle.
+
+        Args:
+            xs: (todo): write your description
+            y_samples: (int): write your description
+        """
         xs, ys = xs[xs >= 0], y_samples[xs >= 0]
         if len(xs) > 1:
             LaneEval.lr.fit(ys[:, None], xs)
@@ -21,16 +28,41 @@ class LaneEval(object):
 
     @staticmethod
     def line_accuracy(pred, gt, thresh):
+        """
+        Accuracy accuracy.
+
+        Args:
+            pred: (todo): write your description
+            gt: (todo): write your description
+            thresh: (float): write your description
+        """
         pred = np.array([p if p >= 0 else -100 for p in pred])
         gt = np.array([g if g >= 0 else -100 for g in gt])
         return np.sum(np.where(np.abs(pred - gt) < thresh, 1., 0.)) / len(gt)
 
     @staticmethod
     def distances(pred, gt):
+        """
+        Calculate the distances between pred and pred.
+
+        Args:
+            pred: (todo): write your description
+            gt: (int): write your description
+        """
         return np.abs(pred - gt)
 
     @staticmethod
     def bench(pred, gt, y_samples, running_time, get_matches=False):
+        """
+        Benchmark predictions.
+
+        Args:
+            pred: (array): write your description
+            gt: (array): write your description
+            y_samples: (int): write your description
+            running_time: (todo): write your description
+            get_matches: (array): write your description
+        """
         if any(len(p) != len(y_samples) for p in pred):
             raise Exception('Format of lanes error.')
         if running_time > 20000 or len(gt) + 2 < len(pred):
@@ -73,6 +105,13 @@ class LaneEval(object):
 
     @staticmethod
     def bench_one_submit(pred_file, gt_file):
+        """
+        Benchmark predictions for each cluster.
+
+        Args:
+            pred_file: (str): write your description
+            gt_file: (str): write your description
+        """
         try:
             json_pred = [json.loads(line) for line in open(pred_file).readlines()]
         except BaseException as e:

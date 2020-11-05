@@ -10,6 +10,13 @@ from scipy.spatial import distance
 
 
 def show_preds(pred, gt):
+    """
+    Show the predictions in the image
+
+    Args:
+        pred: (todo): write your description
+        gt: (todo): write your description
+    """
     img = np.zeros((720, 1280, 3), dtype=np.uint8)
     print(len(gt), 'gts and', len(pred), 'preds')
     for lane in gt:
@@ -23,6 +30,18 @@ def show_preds(pred, gt):
 
 
 def area_distance(pred_x, pred_y, gt_x, gt_y, placeholder=np.nan):
+    """
+    Compute the distance between two points.
+
+    Args:
+        pred_x: (str): write your description
+        pred_y: (array): write your description
+        gt_x: (todo): write your description
+        gt_y: (str): write your description
+        placeholder: (todo): write your description
+        np: (todo): write your description
+        nan: (todo): write your description
+    """
     pred = np.vstack([pred_x, pred_y]).T
     gt = np.vstack([gt_x, gt_y]).T
 
@@ -37,6 +56,14 @@ def area_distance(pred_x, pred_y, gt_x, gt_y, placeholder=np.nan):
 
 
 def area_metric(pred, gt, debug=None):
+    """
+    Calculate the area area.
+
+    Args:
+        pred: (todo): write your description
+        gt: (todo): write your description
+        debug: (bool): write your description
+    """
     pred = sorted(pred, key=lambda ps: abs(ps[0][0] - 720/2.))[:2]
     gt = sorted(gt, key=lambda ps: abs(ps[0][0] - 720/2.))[:2]
     if len(pred) == 0:
@@ -92,6 +119,12 @@ def area_metric(pred, gt, debug=None):
 
 
 def convert_tusimple_format(json_gt):
+    """
+    Convert json_gtpleplevel format into format
+
+    Args:
+        json_gt: (str): write your description
+    """
     output = []
     for data in json_gt:
         lanes = [[(x, y) for (x, y) in zip(lane, data['h_samples']) if x >= 0] for lane in data['lanes']
@@ -105,6 +138,15 @@ def convert_tusimple_format(json_gt):
 
 
 def eval_json(pred_file, gt_file, json_type=None, debug=False):
+    """
+    Evaluate predictions file.
+
+    Args:
+        pred_file: (str): write your description
+        gt_file: (str): write your description
+        json_type: (str): write your description
+        debug: (bool): write your description
+    """
     try:
         json_pred = [json.loads(line) for line in open(pred_file).readlines()]
     except BaseException as e:

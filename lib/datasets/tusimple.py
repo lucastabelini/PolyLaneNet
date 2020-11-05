@@ -18,6 +18,16 @@ SPLIT_FILES = {
 
 class TuSimple(object):
     def __init__(self, split='train', max_lanes=None, root=None, metric='default'):
+        """
+        Initialize annotations
+
+        Args:
+            self: (todo): write your description
+            split: (int): write your description
+            max_lanes: (int): write your description
+            root: (str): write your description
+            metric: (str): write your description
+        """
         self.split = split
         self.root = root
         self.metric = metric
@@ -39,12 +49,34 @@ class TuSimple(object):
             self.max_lanes = max_lanes
 
     def get_img_heigth(self, path):
+        """
+        Get the heap heap for the given path.
+
+        Args:
+            self: (todo): write your description
+            path: (str): write your description
+        """
         return 720
 
     def get_img_width(self, path):
+        """
+        Return the width of the image.
+
+        Args:
+            self: (todo): write your description
+            path: (str): write your description
+        """
         return 1280
 
     def get_metrics(self, lanes, idx):
+        """
+        Get metrics for a given lanes metrics.
+
+        Args:
+            self: (todo): write your description
+            lanes: (str): write your description
+            idx: (int): write your description
+        """
         label = self.annotations[idx]
         org_anno = label['old_anno']
         pred = self.pred2lanes(org_anno['path'], lanes, org_anno['y_samples'])
@@ -53,6 +85,15 @@ class TuSimple(object):
         return matches, accs, dist
 
     def pred2lanes(self, path, pred, y_samples):
+        """
+        Predicts predictions to predictions.
+
+        Args:
+            self: (todo): write your description
+            path: (str): write your description
+            pred: (todo): write your description
+            y_samples: (int): write your description
+        """
         ys = np.array(y_samples) / self.img_h
         lanes = []
         for lane in pred:
@@ -65,6 +106,12 @@ class TuSimple(object):
         return lanes
 
     def load_annotations(self):
+        """
+        Load annotations from a file.
+
+        Args:
+            self: (todo): write your description
+        """
         self.annotations = []
         max_lanes = 0
         for anno_file in self.anno_files:
@@ -93,9 +140,25 @@ class TuSimple(object):
         self.max_lanes = max_lanes
 
     def transform_annotations(self, transform):
+        """
+        Replaces annotations to the given transformation.
+
+        Args:
+            self: (todo): write your description
+            transform: (todo): write your description
+        """
         self.annotations = list(map(transform, self.annotations))
 
     def pred2tusimpleformat(self, idx, pred, runtime):
+        """
+        Convert the predictions to the predictions.
+
+        Args:
+            self: (todo): write your description
+            idx: (str): write your description
+            pred: (todo): write your description
+            runtime: (int): write your description
+        """
         runtime *= 1000.  # s to ms
         img_name = self.annotations[idx]['old_anno']['org_path']
         h_samples = self.annotations[idx]['old_anno']['y_samples']
@@ -104,6 +167,15 @@ class TuSimple(object):
         return json.dumps(output)
 
     def save_tusimple_predictions(self, predictions, runtimes, filename):
+        """
+        Saves the predictions to file.
+
+        Args:
+            self: (todo): write your description
+            predictions: (todo): write your description
+            runtimes: (todo): write your description
+            filename: (str): write your description
+        """
         lines = []
         for idx in range(len(predictions)):
             line = self.pred2tusimpleformat(idx, predictions[idx], runtimes[idx])
@@ -112,6 +184,17 @@ class TuSimple(object):
             output_file.write('\n'.join(lines))
 
     def eval(self, exp_dir, predictions, runtimes, label=None, only_metrics=False):
+        """
+        Evaluate the model.
+
+        Args:
+            self: (todo): write your description
+            exp_dir: (str): write your description
+            predictions: (todo): write your description
+            runtimes: (int): write your description
+            label: (todo): write your description
+            only_metrics: (bool): write your description
+        """
         pred_filename = '/tmp/tusimple_predictions_{}.json'.format(label)
         self.save_tusimple_predictions(predictions, runtimes, pred_filename)
         if self.metric == 'default':
@@ -131,7 +214,20 @@ class TuSimple(object):
         return table, result
 
     def __getitem__(self, idx):
+        """
+        Return an item with the given index.
+
+        Args:
+            self: (todo): write your description
+            idx: (list): write your description
+        """
         return self.annotations[idx]
 
     def __len__(self):
+        """
+        Returns the length of the annotations.
+
+        Args:
+            self: (todo): write your description
+        """
         return len(self.annotations)

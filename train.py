@@ -16,6 +16,17 @@ from utils.evaluator import Evaluator
 
 
 def train(model, train_loader, exp_dir, cfg, val_loader, train_state=None):
+    """
+    Training function.
+
+    Args:
+        model: (todo): write your description
+        train_loader: (todo): write your description
+        exp_dir: (str): write your description
+        cfg: (todo): write your description
+        val_loader: (todo): write your description
+        train_state: (todo): write your description
+    """
     # Get initial train state
     optimizer = cfg.get_optimizer(model.parameters())
     scheduler = cfg.get_lr_scheduler(optimizer)
@@ -101,6 +112,16 @@ def train(model, train_loader, exp_dir, cfg, val_loader, train_state=None):
 
 
 def save_train_state(path, model, optimizer, lr_scheduler, epoch):
+    """
+    Saves training state of the model.
+
+    Args:
+        path: (str): write your description
+        model: (todo): write your description
+        optimizer: (todo): write your description
+        lr_scheduler: (todo): write your description
+        epoch: (int): write your description
+    """
     train_state = {
         'model': model.state_dict(),
         'optimizer': optimizer.state_dict(),
@@ -112,6 +133,11 @@ def save_train_state(path, model, optimizer, lr_scheduler, epoch):
 
 
 def parse_args():
+    """
+    Parse command line arguments.
+
+    Args:
+    """
     parser = argparse.ArgumentParser(description="Train PolyLaneNet")
     parser.add_argument("--exp_name", default="default", help="Experiment name", required=True)
     parser.add_argument("--cfg", default="config.yaml", help="Config file", required=True)
@@ -125,6 +151,11 @@ def parse_args():
 
 
 def get_code_state():
+    """
+    Returns the state of a state.
+
+    Args:
+    """
     state = "Git hash: {}".format(
         subprocess.run(['git', 'rev-parse', 'HEAD'], stdout=subprocess.PIPE).stdout.decode('utf-8'))
     state += '\n*************\nGit diff:\n*************\n'
@@ -134,6 +165,14 @@ def get_code_state():
 
 
 def setup_exp_dir(exps_dir, exp_name, cfg_path):
+    """
+    Setup the exp_dir directory.
+
+    Args:
+        exps_dir: (str): write your description
+        exp_name: (str): write your description
+        cfg_path: (str): write your description
+    """
     dirs = ["models"]
     exp_root = os.path.join(exps_dir, exp_name)
 
@@ -148,6 +187,12 @@ def setup_exp_dir(exps_dir, exp_name, cfg_path):
 
 
 def get_exp_train_state(exp_root):
+    """
+    Get the state of the experiment.
+
+    Args:
+        exp_root: (str): write your description
+    """
     models_dir = os.path.join(exp_root, "models")
     models = os.listdir(models_dir)
     last_epoch, last_modelname = sorted(
@@ -160,6 +205,14 @@ def get_exp_train_state(exp_root):
 
 
 def log_on_exception(exc_type, exc_value, exc_traceback):
+    """
+    Logs an exception.
+
+    Args:
+        exc_type: (todo): write your description
+        exc_value: (todo): write your description
+        exc_traceback: (todo): write your description
+    """
     logging.error("Uncaught exception", exc_info=(exc_type, exc_value, exc_traceback))
 
 

@@ -27,6 +27,18 @@ class LaneDataset(Dataset):
                  img_size=(360, 640),
                  aug_chance=1.,
                  **kwargs):
+        """
+        Initialize the imap dataset.
+
+        Args:
+            self: (todo): write your description
+            dataset: (todo): write your description
+            augmentations: (str): write your description
+            normalize: (bool): write your description
+            split: (int): write your description
+            img_size: (int): write your description
+            aug_chance: (todo): write your description
+        """
         super(LaneDataset, self).__init__()
         if dataset == 'tusimple':
             self.dataset = TuSimple(split=split, **kwargs)
@@ -54,6 +66,14 @@ class LaneDataset(Dataset):
         self.max_lanes = self.dataset.max_lanes
 
     def transform_annotation(self, anno, img_wh=None):
+        """
+        Transform an annotation
+
+        Args:
+            self: (todo): write your description
+            anno: (todo): write your description
+            img_wh: (todo): write your description
+        """
         if img_wh is None:
             img_h = self.dataset.get_img_heigth(anno['path'])
             img_w = self.dataset.get_img_width(anno['path'])
@@ -88,14 +108,36 @@ class LaneDataset(Dataset):
 
     @property
     def annotations(self):
+        """
+        A list of annotations
+
+        Args:
+            self: (todo): write your description
+        """
         return self.dataset.annotations
 
     def transform_annotations(self):
+        """
+        Annotated annotations. annotations.
+
+        Args:
+            self: (todo): write your description
+        """
         print('Transforming annotations...')
         self.dataset.annotations = np.array(list(map(self.transform_annotation, self.dataset.annotations)))
         print('Done.')
 
     def draw_annotation(self, idx, pred=None, img=None, cls_pred=None):
+        """
+        Draws the image.
+
+        Args:
+            self: (todo): write your description
+            idx: (int): write your description
+            pred: (todo): write your description
+            img: (todo): write your description
+            cls_pred: (bool): write your description
+        """
         if img is None:
             img, label, _ = self.__getitem__(idx, transform=True)
             # Tensor to opencv image
@@ -186,6 +228,13 @@ class LaneDataset(Dataset):
         return img
 
     def lane_to_linestrings(self, lanes):
+        """
+        Return a list of lines to lines.
+
+        Args:
+            self: (todo): write your description
+            lanes: (str): write your description
+        """
         lines = []
         for lane in lanes:
             lines.append(LineString(lane))
@@ -193,6 +242,13 @@ class LaneDataset(Dataset):
         return lines
 
     def linestrings_to_lanes(self, lines):
+        """
+        Convert list of the lines.
+
+        Args:
+            self: (todo): write your description
+            lines: (str): write your description
+        """
         lanes = []
         for line in lines:
             lanes.append(line.coords)
@@ -200,6 +256,14 @@ class LaneDataset(Dataset):
         return lanes
 
     def __getitem__(self, idx, transform=True):
+        """
+        Retrieve image item.
+
+        Args:
+            self: (todo): write your description
+            idx: (list): write your description
+            transform: (todo): write your description
+        """
         item = self.dataset[idx]
         img = cv2.imread(item['path'])
         label = item['label']
@@ -219,10 +283,21 @@ class LaneDataset(Dataset):
         return (img, label, idx)
 
     def __len__(self):
+        """
+        Returns the number of the dataset.
+
+        Args:
+            self: (todo): write your description
+        """
         return len(self.dataset)
 
 
 def main():
+    """
+    Main function.
+
+    Args:
+    """
     import torch
     from lib.config import Config
     np.random.seed(0)

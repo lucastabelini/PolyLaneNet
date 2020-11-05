@@ -15,6 +15,20 @@ from utils.evaluator import Evaluator
 
 
 def test(model, test_loader, evaluator, exp_root, cfg, view, epoch, max_batches=None, verbose=True):
+    """
+    Evaluates the model.
+
+    Args:
+        model: (todo): write your description
+        test_loader: (todo): write your description
+        evaluator: (todo): write your description
+        exp_root: (int): write your description
+        cfg: (todo): write your description
+        view: (int): write your description
+        epoch: (int): write your description
+        max_batches: (int): write your description
+        verbose: (bool): write your description
+    """
     if verbose:
         logging.info("Starting testing.")
 
@@ -77,6 +91,11 @@ def test(model, test_loader, evaluator, exp_root, cfg, view, epoch, max_batches=
 
 
 def parse_args():
+    """
+    Parse command line arguments.
+
+    Args:
+    """
     parser = argparse.ArgumentParser(description="Lane regression")
     parser.add_argument("--exp_name", default="default", help="Experiment name", required=True)
     parser.add_argument("--cfg", default="config.yaml", help="Config file", required=True)
@@ -88,6 +107,11 @@ def parse_args():
 
 
 def get_code_state():
+    """
+    Returns the state of a state.
+
+    Args:
+    """
     state = "Git hash: {}".format(
         subprocess.run(['git', 'rev-parse', 'HEAD'], stdout=subprocess.PIPE).stdout.decode('utf-8'))
     state += '\n*************\nGit diff:\n*************\n'
@@ -97,6 +121,14 @@ def get_code_state():
 
 
 def log_on_exception(exc_type, exc_value, exc_traceback):
+    """
+    Logs an exception.
+
+    Args:
+        exc_type: (todo): write your description
+        exc_value: (todo): write your description
+        exc_traceback: (todo): write your description
+    """
     logging.error("Uncaught exception", exc_info=(exc_type, exc_value, exc_traceback))
 
 
