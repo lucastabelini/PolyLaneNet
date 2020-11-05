@@ -19,6 +19,13 @@ EXPS_DIR = '../data_lane-regression/experiments'
 
 
 def smooth_curve(xs, factor):
+    """
+    Smooth a 2d curve.
+
+    Args:
+        xs: (array): write your description
+        factor: (float): write your description
+    """
     smoothed = [None] * len(xs)
     smoothed[0] = xs[0]
     for i in range(1, len(xs)):
@@ -37,6 +44,21 @@ def plot_loss(data,
               only_epoch_end=False,
               plot_val=False,
               plot_loss_comps=False):
+    """
+    Plot loss loss.
+
+    Args:
+        data: (todo): write your description
+        fig: (todo): write your description
+        ax: (todo): write your description
+        label: (str): write your description
+        plot_lr: (todo): write your description
+        smoothing: (todo): write your description
+        xaxis: (int): write your description
+        only_epoch_end: (array): write your description
+        plot_val: (bool): write your description
+        plot_loss_comps: (todo): write your description
+    """
     iter_data = data['iter_update']
     epoch_data = data['epoch_update']
     now = datetime.datetime.today()
@@ -90,6 +112,12 @@ def plot_loss(data,
 
 
 def parse_line(line):
+    """
+    Parse a single epoch line.
+
+    Args:
+        line: (str): write your description
+    """
     iter_match = re.match(ITER_PATTERN, line)
     epoch_match = re.match(EPOCH_PATTERN, line)
     data = {}
@@ -120,6 +148,12 @@ def parse_line(line):
 
 
 def parse_log(log_path):
+    """
+    Parse log file
+
+    Args:
+        log_path: (str): write your description
+    """
     with open(log_path, 'r') as log_file:
         lines = [line.rstrip() for line in log_file.readlines()]
     data = {'iter_update': [], 'epoch_update': []}
@@ -131,10 +165,21 @@ def parse_log(log_path):
 
 
 def get_logfilepath(exp_name):
+    """
+    Returns the logfile path
+
+    Args:
+        exp_name: (str): write your description
+    """
     return os.path.join(EXPS_DIR, exp_name, 'log.txt')
 
 
 def parse_args():
+    """
+    Parse command line arguments.
+
+    Args:
+    """
     parser = argparse.ArgumentParser(description='Visualization')
     parser.add_argument('exp_name', nargs='*', default=None, help='Experiment names')
     parser.add_argument('--smoothing', type=float, default=0.99, help='Experiment name')

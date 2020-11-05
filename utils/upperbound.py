@@ -11,6 +11,13 @@ warnings.simplefilter('ignore', np.RankWarning)
 
 
 def polyfit_upperbound(dataset, degree):
+    """
+    Fit polynomial polynomial.
+
+    Args:
+        dataset: (todo): write your description
+        degree: (todo): write your description
+    """
     evaluator = Evaluator(dataset, '/tmp', degree)
     print('Predicting with upperbound...')
     for i, anno in enumerate(progressbar(dataset.annotations)):

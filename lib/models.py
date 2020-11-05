@@ -6,6 +6,14 @@ from efficientnet_pytorch import EfficientNet
 
 class OutputLayer(nn.Module):
     def __init__(self, fc, num_extra):
+        """
+        Initialize the network.
+
+        Args:
+            self: (todo): write your description
+            fc: (todo): write your description
+            num_extra: (int): write your description
+        """
         super(OutputLayer, self).__init__()
         self.regular_outputs_layer = fc
         self.num_extra = num_extra
@@ -13,6 +21,13 @@ class OutputLayer(nn.Module):
             self.extra_outputs_layer = nn.Linear(fc.in_features, num_extra)
 
     def forward(self, x):
+        """
+        Forward computation.
+
+        Args:
+            self: (todo): write your description
+            x: (todo): write your description
+        """
         regular_outputs = self.regular_outputs_layer(x)
         if self.num_extra > 0:
             extra_outputs = self.extra_outputs_layer(x)
@@ -31,6 +46,19 @@ class PolyRegression(nn.Module):
                  extra_outputs=0,
                  share_top_y=True,
                  pred_category=False):
+        """
+        Initialize the model.
+
+        Args:
+            self: (todo): write your description
+            num_outputs: (int): write your description
+            backbone: (todo): write your description
+            pretrained: (bool): write your description
+            curriculum_steps: (int): write your description
+            extra_outputs: (str): write your description
+            share_top_y: (str): write your description
+            pred_category: (str): write your description
+        """
         super(PolyRegression, self).__init__()
         if 'efficientnet' in backbone:
             if pretrained:
@@ -60,6 +88,14 @@ class PolyRegression(nn.Module):
         self.sigmoid = nn.Sigmoid()
 
     def forward(self, x, epoch=None, **kwargs):
+        """
+        Forward computation.
+
+        Args:
+            self: (todo): write your description
+            x: (todo): write your description
+            epoch: (todo): write your description
+        """
         output, extra_outputs = self.model(x, **kwargs)
         for i in range(len(self.curriculum_steps)):
             if epoch is not None and epoch < self.curriculum_steps[i]:
@@ -67,6 +103,15 @@ class PolyRegression(nn.Module):
         return output, extra_outputs
 
     def decode(self, all_outputs, labels, conf_threshold=0.5):
+        """
+        Decode outputs and outputs.
+
+        Args:
+            self: (todo): write your description
+            all_outputs: (bool): write your description
+            labels: (list): write your description
+            conf_threshold: (float): write your description
+        """
         outputs, extra_outputs = all_outputs
         if extra_outputs is not None:
             extra_outputs = extra_outputs.reshape(labels.shape[0], 5, -1)
@@ -89,6 +134,20 @@ class PolyRegression(nn.Module):
              cls_weight=1,
              poly_weight=300,
              threshold=15 / 720.):
+        """
+        R evaluate the loss.
+
+        Args:
+            self: (todo): write your description
+            outputs: (todo): write your description
+            target: (str): write your description
+            conf_weight: (todo): write your description
+            lower_weight: (bool): write your description
+            upper_weight: (todo): write your description
+            cls_weight: (array): write your description
+            poly_weight: (list): write your description
+            threshold: (float): write your description
+        """
         pred, extra_outputs = outputs
         bce = nn.BCELoss()
         mse = nn.MSELoss()

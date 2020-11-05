@@ -12,6 +12,15 @@ SPLIT_DIRECTORIES = {'train': 'labels/train', 'val': 'labels/valid'}
 
 class LLAMAS(object):
     def __init__(self, split='train', max_lanes=None, root=None):
+        """
+        Initialize the image.
+
+        Args:
+            self: (todo): write your description
+            split: (int): write your description
+            max_lanes: (int): write your description
+            root: (str): write your description
+        """
         self.split = split
         self.root = root
         if split not in SPLIT_DIRECTORIES.keys():
@@ -28,22 +37,57 @@ class LLAMAS(object):
             self.max_lanes = max_lanes
 
     def get_img_heigth(self, path):
+        """
+        Get the heap heap
+
+        Args:
+            self: (todo): write your description
+            path: (str): write your description
+        """
         return self.img_h
 
     def get_img_width(self, path):
+        """
+        Get the width of the image.
+
+        Args:
+            self: (todo): write your description
+            path: (str): write your description
+        """
         return self.img_w
 
     def get_metrics(self, lanes, idx):
+        """
+        Returns the metrics from lanes
+
+        Args:
+            self: (todo): write your description
+            lanes: (str): write your description
+            idx: (int): write your description
+        """
         # Placeholders
         return [1] * len(lanes), [1] * len(lanes), None
 
     def get_img_path(self, json_path):
+        """
+        Returns the path
+
+        Args:
+            self: (todo): write your description
+            json_path: (str): write your description
+        """
         # /foo/bar/test/folder/image_label.ext --> test/folder/image_label.ext
         base_name = '/'.join(json_path.split('/')[-3:])
         image_path = os.path.join('color_images', base_name.replace('.json', '_color_rect.png'))
         return image_path
 
     def get_json_paths(self):
+        """
+        Return a list of paths to json files.
+
+        Args:
+            self: (todo): write your description
+        """
         json_paths = []
         for root, dirs, files in os.walk(self.labels_dir):
             for file in files:
@@ -52,6 +96,12 @@ class LLAMAS(object):
         return json_paths
 
     def load_annotations(self):
+        """
+        Load all annotations in - memory file.
+
+        Args:
+            self: (todo): write your description
+        """
         # Waiting for the dataset to load is tedious, let's cache it
         os.makedirs('cache', exist_ok=True)
         cache_path = 'cache/llamas_{}.pkl'.format(self.split)
@@ -83,13 +133,37 @@ class LLAMAS(object):
             pkl.dump(self.annotations, cache_file)
 
     def eval(self, exp_dir, predictions, runtimes, label=None, only_metrics=False):
+        """
+        Evaluate the model.
+
+        Args:
+            self: (todo): write your description
+            exp_dir: (str): write your description
+            predictions: (todo): write your description
+            runtimes: (int): write your description
+            label: (todo): write your description
+            only_metrics: (bool): write your description
+        """
         # Placeholder
         return "", None
 
     def __getitem__(self, idx):
+        """
+        Return an item with the given index.
+
+        Args:
+            self: (todo): write your description
+            idx: (list): write your description
+        """
         return self.annotations[idx]
 
     def __len__(self):
+        """
+        Returns the length of the annotations.
+
+        Args:
+            self: (todo): write your description
+        """
         return len(self.annotations)
 
 
@@ -218,6 +292,13 @@ class SplineCreator():
 
     """
     def __init__(self, json_path):
+        """
+        Initialize json file.
+
+        Args:
+            self: (todo): write your description
+            json_path: (str): write your description
+        """
         self.json_path = json_path
         self.json_content = read_json(json_path)
         self.lanes = self.json_content['lanes']
