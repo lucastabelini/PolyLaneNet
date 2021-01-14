@@ -20,7 +20,7 @@ def test(model, test_loader, evaluator, exp_root, cfg, view, epoch, max_batches=
 
     # Test the model
     if epoch > 0:
-        model.load_state_dict(torch.load(os.path.join(exp_root, "models", "model_{:03d}.pt".format(epoch)))['model'])
+        model.load_state_dict(torch.load(os.path.join(exp_root, "models", "model_{:03d}.pt".format(epoch)) , map_location='cpu')['model'])
 
     model.eval()
     criterion_parameters = cfg.get_loss_parameters()
@@ -143,7 +143,7 @@ if __name__ == "__main__":
     test_loader = torch.utils.data.DataLoader(dataset=test_dataset,
                                               batch_size=batch_size if args.view is False else 1,
                                               shuffle=False,
-                                              num_workers=8)
+                                              num_workers=0)
     # Eval results
     evaluator = Evaluator(test_loader.dataset, exp_root)
 
