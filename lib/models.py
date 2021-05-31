@@ -63,7 +63,7 @@ class PolyRegression(nn.Module):
         output, extra_outputs = self.model(x, **kwargs)
         for i in range(len(self.curriculum_steps)):
             if epoch is not None and epoch < self.curriculum_steps[i]:
-                output[-len(self.curriculum_steps) + i] = 0
+                output[:, -len(self.curriculum_steps) + i] = 0
         return output, extra_outputs
 
     def decode(self, all_outputs, labels, conf_threshold=0.5):
